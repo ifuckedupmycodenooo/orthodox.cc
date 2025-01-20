@@ -89,12 +89,16 @@ setthreadidentity(7)
     end
     
     if getgenv().Orthodox.Checks.Da_Hood.KO then
-        local bodyEffects = player.Character:FindFirstChild("BodyEffects")
-        if bodyEffects and bodyEffects:FindFirstChild("K.O") and bodyEffects.K.O.Value then return false end
+        local humanoid = player.Character:FindFirstChild("Humanoid")
+        if humanoid and humanoid.Health <= 2 then return false end
     end
     
-    return not (getgenv().Orthodox.Checks.Da_Hood.Grabbed and player.Character:FindFirstChild("GRABBING_CONSTRAINT"))
- end
+    if getgenv().Orthodox.Checks.Da_Hood.Grabbed then
+        if player.Character:FindFirstChild("GRABBING_CONSTRAINT") then return false end
+    end
+    
+    return true
+end
  
  utility.get_target = function()
     local max_distance = getgenv().Orthodox.Visuals.Fov.Size
